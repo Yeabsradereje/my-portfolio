@@ -5,7 +5,7 @@
     --secondary-color: #ffc800;
     --text-color: #333;
     --text-light: #767676;
-    --bg-color: #gray;
+    --bg-color: #fff;
     --bg-light: #f9f9f9;
     --header-bg: rgba(255, 255, 255, 0.95);
     --card-bg: white;
@@ -36,7 +36,7 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+   box-sizing: content-box;
 }
 
 html {
@@ -154,7 +154,7 @@ header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: px;
 }
 
 .logo h1 {
