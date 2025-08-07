@@ -137,6 +137,16 @@ if (contactForm) {
     });
 }
 
+// Back to Top Button
+window.addEventListener('scroll', function() {
+    const backToTopButton = document.querySelector('.back-to-top');
+    if (window.pageYOffset > 300) {
+        backToTopButton.classList.add('visible');
+    } else {
+        backToTopButton.classList.remove('visible');
+    }
+});
+
 // Animate elements on scroll
 window.addEventListener('scroll', () => {
     const elements = document.querySelectorAll('.about-image, .about-text, .skill-category, .project-card, .timeline-item, .contact-item');
@@ -223,5 +233,77 @@ document.addEventListener('DOMContentLoaded', function() {
         card.style.opacity = '1';
         card.style.transform = 'scale(1)';
         card.style.transition = 'all 0.3s ease';
+    });
+});
+// Universal Connection Handler
+function checkConnection() {
+  // First check basic online status
+  if (!navigator.onLine) {
+    showConnectionAlert();
+    return false;
+  }
+
+  // Test with a lightweight request
+  return fetch('https://httpbin.org/get?t=' + Date.now(), {
+    method: 'HEAD',
+    cache: 'no-store',
+    mode: 'no-cors'
+  })
+  .then(() => true)
+  .catch(() => {
+    showConnectionAlert();
+    return false;
+  });
+}
+
+function showConnectionAlert() {
+  document.getElementById('connection-alert').style.display = 'flex';
+}
+
+function retryConnection() {
+  document.getElementById('connection-alert').style.display = 'none';
+  checkConnection().then(connected => {
+    if (connected) location.reload();
+  });
+}
+
+// Check connection on load
+window.addEventListener('load', function() {
+  checkConnection();
+});
+
+// Monitor connection changes
+window.addEventListener('online', checkConnection);
+window.addEventListener('offline', function() {
+  showConnectionAlert();
+});
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  new ConnectionManager();
+});
+// Animation Control Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const orbitControl = document.getElementById('orbitControl');
+    const circle = document.querySelector('.circle');
+    let isPlaying = true;
+    
+    orbitControl.addEventListener('click', function() {
+        isPlaying = !isPlaying;
+        
+        if (isPlaying) {
+            circle.classList.remove('paused');
+            orbitControl.innerHTML = '<i class="fas fa-pause"></i>';
+            orbitControl.setAttribute('aria-label', 'Pause animation');
+        } else {
+            circle.classList.add('paused');
+            orbitControl.innerHTML = '<i class="fas fa-play"></i>';
+            orbitControl.setAttribute('aria-label', 'Play animation');
+        }
+    });
+    
+    // Add slight delay to each tool's animation for staggered effect
+    document.querySelectorAll('.orbiting-tool').forEach((tool, index) => {
+        tool.style.animationDelay = `${index * -2.5}s`;
     });
 });
